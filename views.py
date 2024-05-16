@@ -1,3 +1,33 @@
+from flask import render_template, request, redirect, url_for
+from expense import Expense
+
+def index():
+    return render_template("index.html")
+
+def add_expense():
+    # Handle adding expense data from the form.
+    expense_name = request.form.get("expense_name")
+    expense_amount = float(request.form.get("expense_amount"))
+    expense_category = request.form.get("expense_category")
+    
+    new_expense = Expense(name=expense_name, category=expense_category, amount=expense_amount)
+    save_expense_to_file(new_expense, "expenses.csv")
+    
+    return redirect(url_for("index"))
+
+def save_expense_to_file(expense: Expense, expense_file_path):
+    with open(expense_file_path, "a") as f:
+        f.write(f"{expense.name},{expense.amount},{expense.category}\n")
+
+def set_up_budget():
+    # user fill input and send it to seperate file
+    pass
+
+def show_budget():
+    # budegt tabs show information basis on set_up_budget and sum expense
+    # show_budget appears auto 
+    pass
+
 # from expense import Expense
 # import calendar
 # import datetime
@@ -100,3 +130,4 @@
 
 # if __name__ == "__main__":
 #     main()
+
